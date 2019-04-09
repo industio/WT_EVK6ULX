@@ -71,7 +71,7 @@ echo fat path:$fat_node
 echo linux path:$linux_node
 
 dd if=/dev/zero of=$1 bs=1k seek=768 conv=fsync count=8
-dd if=emmc/u-boot-imx6ull14x14evk.imx-sd of=$1 bs=1k seek=1 conv=fsync
+dd if=u-boot-imx6ull14x14evk.imx-sd of=$1 bs=1k seek=1 conv=fsync
 
 check_exit write uboot
 
@@ -85,11 +85,11 @@ mount -t vfat $fat_node fat
 
 check_exit mount $fat_node
 
-cp emmc/zImage fat
+cp zImage fat
 
 check_exit cp zImage
 
-cp emmc/imx6ull-14x14-evk.dtb fat
+cp imx6ull-14x14-evk.dtb fat
 
 check_exit cp imx6ull-14x14-evk.dtb
 
@@ -109,9 +109,9 @@ mount -t ext3 $linux_node linux
 
 check_exit mount $linux_node
 
-tar -xvf rootfs.tar -C linux
+tar -xvf rootfs.tar.bz2 -C linux
 
-check_exit tar rootfs.tar
+check_exit tar rootfs.tar.bz2
 
 umount linux
 
