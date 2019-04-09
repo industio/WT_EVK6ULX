@@ -109,7 +109,7 @@ mount -t ext3 $linux_node linux
 
 check_exit mount $linux_node
 
-tar -xvf rootfs.tar.bz2 -C linux
+tar -jxvf rootfs.tar.bz2 -C linux
 
 check_exit tar rootfs.tar.bz2
 
