@@ -1,0 +1,25 @@
+From 9e841595da7d0f5451a5e330fe3d76f53f3bede5 Mon Sep 17 00:00:00 2001
+From: jerry <lyle_wjy@163.com>
+Date: Tue, 9 Apr 2019 12:13:19 +0800
+Subject: [PATCH] update:CONFIG_ENV_OFFSET=0x280000
+
+---
+ include/configs/mx6ullevk.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/configs/mx6ullevk.h b/include/configs/mx6ullevk.h
+index 4e2c00d..1671bc7 100755
+--- a/include/configs/mx6ullevk.h
++++ b/include/configs/mx6ullevk.h
+@@ -344,7 +344,7 @@
+ #define CONFIG_ENV_SPI_MAX_HZ		CONFIG_SF_DEFAULT_SPEED
+ #elif defined(CONFIG_ENV_IS_IN_NAND)
+ #undef CONFIG_ENV_SIZE
+-#define CONFIG_ENV_OFFSET		(60 << 20)
++#define CONFIG_ENV_OFFSET		0x280000
+ #define CONFIG_ENV_SECT_SIZE		(128 << 10)
+ #define CONFIG_ENV_SIZE			CONFIG_ENV_SECT_SIZE
+ #endif
+-- 
+2.7.4
+
