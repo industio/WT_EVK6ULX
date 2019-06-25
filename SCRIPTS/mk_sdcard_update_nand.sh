@@ -64,8 +64,8 @@ mksdcard $1
 
 check_exit sfdisk $1
 
-fat_node=$11
-linux_node=$12
+fat_node=${1}1
+linux_node=${1}2
 
 echo fat path:$fat_node
 echo linux path:$linux_node
