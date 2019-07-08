@@ -55,7 +55,7 @@ echo "The storage contents will be deleted permanently!!!"
 read -t 20 -p "Are you sure you want to continue:$1?(y/n)" yes
 echo $yes
 
-if [ $yes = "y" ]; then
+if [ "$yes" = "y" ]; then
 	
 rm fat -Rf
 rm linux -Rf
