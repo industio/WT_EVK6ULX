@@ -2,18 +2,24 @@
 
 FAT_SIZE=500M
 
+uboot=u-boot-imx6ull14x14evk.imx-sd
+dtb=imx6ull-14x14-evk.dtb
+boot=zImage
+rootfs=rootfs.tar.bz2
+
 if [ $# -gt 0 ]; then
    
 	if [ $# -gt 1 ]; then		
 		echo "Incorrect number of parameters"
-		echo "Usage:"
-        echo " sudo ./mk_sd_update-emmc.sh /dev/sd[a-z]"
+		echo "if the sdcard mounted,need umount this sdcard."
+       	echo "sudo ./mk_sdcard_update_nand.sh /dev/sd[a-z] or sudo bash mk_sdcard_update_nand.sh /dev/sd[a-z]"
 		exit 1
 	fi
 		
 else
         echo "Usage:"
-        echo " sudo ./mk_sd_update-emmc.sh /dev/sd[a-z]"
+        echo "if the sdcard mounted,need umount this sdcard."
+       	echo "sudo ./mk_sdcard_update_nand.sh /dev/sd[a-z] or sudo bash mk_sdcard_update_nand.sh /dev/sd[a-z]"
 		exit 2
 fi
 
@@ -49,6 +55,28 @@ check_exit() {
 }
 
 if [ -b $1 ]; then
+
+if [ ! -e ${uboot} ];then
+echo "not found:${uboot}"
+exit 1;
+fi
+
+if [ ! -e ${dtb} ];then
+echo "not found:${dtb}"
+exit 1;
+fi
+
+
+if [ ! -e ${boot} ];then
+echo "not found:${boot}"
+exit 1;
+fi
+
+if [ ! -e ${rootfs} ];then
+echo "not found:${rootfs}"
+exit 1;
+fi
+
 echo ""
 echo "Attention:"
 echo "The storage contents will be deleted permanently!!!"
@@ -71,7 +99,7 @@ echo fat path:$fat_node
 echo linux path:$linux_node
 
 dd if=/dev/zero of=$1 bs=1k seek=768 conv=fsync count=8
-dd if=u-boot-imx6ull14x14evk.imx-sd of=$1 bs=1k seek=1 conv=fsync
+dd if=${uboot} of=$1 bs=1k seek=1 conv=fsync
 
 check_exit write uboot
 
@@ -85,13 +113,13 @@ mount -t vfat $fat_node fat
 
 check_exit mount $fat_node
 
-cp zImage fat
+cp ${boot} fat
 
-check_exit cp zImage
+check_exit cp ${boot}
 
-cp imx6ull-14x14-evk.dtb fat
+cp ${dtb} fat
 
-check_exit cp imx6ull-14x14-evk.dtb
+check_exit cp ${dtb}
 
 umount fat
 
@@ -109,9 +137,9 @@ mount -t ext3 $linux_node linux
 
 check_exit mount $linux_node
 
-tar -jxvf rootfs.tar.bz2 -C linux
+tar -jxvf ${rootfs} -C linux
 
-check_exit tar rootfs.tar.bz2
+check_exit ${rootfs}
 
 umount linux
 
